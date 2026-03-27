@@ -1,0 +1,16 @@
+{
+  "id": "demo",
+  "name": "demo",
+  "description": "Sample restaurant website – Bella Vista Fine Italian Dining",
+  "created": "2024-01-01T00:00:00.000Z",
+  "chatHistory": [
+    {
+      "role": "user",
+      "content": "Create a homepage for an Italian restaurant called Bella Vista"
+    },
+    {
+      "role": "assistant",
+      "content": "I've created a beautiful homepage for **Bella Vista** Italian restaurant! Here's what I built:\n\n- **Sticky navigation** with links and a reservation CTA button\n- **Hero section** with a dark, elegant background and two call-to-action buttons\n- **Menu section** showcasing 3 signature dishes with prices\n- **About section** with your restaurant's story and key stats\n- **Contact/Booking section** with location info and a reservation form\n- **Fully responsive** – works on mobile and desktop\n\nFeel free to ask me to change the colors, add more dishes, or update any text!"
+    }
+  ]
+}
