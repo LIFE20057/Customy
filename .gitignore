@@ -1,0 +1,24 @@
+# Environment – never commit real secrets
+.env
+site/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# SSL Certificates – generate locally
+certs/*.pem
+certs/*.key
+certs/*.crt
+
+# Version snapshots inside each project
+site/**/.customy-versions/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

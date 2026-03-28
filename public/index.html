@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customy – AI-First CMS</title>
+  <meta name="description" content="Customy: manage your websites through natural language AI chat. Self-hosted, open source." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- CodeMirror for advanced editor -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css" />
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ─── Sidebar ──────────────────────────────────────────── -->
+  <aside id="sidebar" aria-label="Project sidebar">
+    <div class="sidebar-header">
+      <a class="logo" href="/" aria-label="Customy home">
+        <div class="logo-icon" aria-hidden="true">✦</div>
+        <span class="logo-text">Customy</span>
+      </a>
+      <button class="icon-btn" id="collapseSidebar" title="Collapse sidebar" aria-label="Collapse sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+    </div>
+    <div class="sidebar-section-title">Projects</div>
+    <div id="projectList" role="list" aria-label="Project list">
+      <div class="project-item" style="color:var(--text-muted);font-size:0.8rem;padding:0.5rem 1rem;">Loading…</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn primary" id="newProjectBtn" aria-label="Create new project">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        New Project
+      </button>
+      <button class="btn" id="versionsBtn" aria-label="View version history">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        History
+      </button>
+    </div>
+  </aside>
+
+  <!-- ─── Main Content ──────────────────────────────────────── -->
+  <div id="main">
+
+    <!-- Top bar -->
+    <header id="topbar">
+      <button class="icon-btn" id="expandSidebar" title="Open sidebar" aria-label="Open sidebar" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <button class="icon-btn" id="mobileSidebarBtn" title="Toggle sidebar" aria-label="Toggle sidebar" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <span id="projectTitle" aria-live="polite">Select a project to begin</span>
+      <div class="topbar-actions">
+        <button class="btn" id="editorBtn" title="Advanced editor" aria-label="Open advanced code editor" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          Code
+        </button>
+        <button class="btn primary" id="editModeBtn" title="Edit site with AI" aria-label="Enter edit mode" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          Edit
+        </button>
+        <button class="btn" id="openPreviewBtn" title="Open preview" aria-label="Open live preview in new tab" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Preview
+        </button>
+        <button class="icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle dark/light theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <button class="icon-btn" id="logoutBtn" title="Logout" aria-label="Log out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace -->
+    <div id="workspace">
+
+      <!-- Chat Pane -->
+      <section id="chatPane" aria-label="AI chat">
+
+        <!-- Welcome screen (shown when no project selected) -->
+        <div id="welcomeScreen">
+          <div class="welcome-icon" aria-hidden="true">✦</div>
+          <h2>Welcome to Customy</h2>
+          <p>Select an existing project or create a new one to start building your website with AI.</p>
+          <div class="suggestion-chips" aria-label="Quick start suggestions">
+            <button class="chip" data-suggestion="Create a homepage for a restaurant">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path><path d="M10 2v10"></path><path d="m14 6-4-4-4 4"></path></svg>
+              Restaurant homepage
+            </button>
+            <button class="chip" data-suggestion="Build a personal portfolio site">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Portfolio site
+            </button>
+            <button class="chip" data-suggestion="Create a landing page for a SaaS product">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2s-7 10-8.95 12a22 22 0 0 1-1.05 1"></path><path d="m2 22 1-1"></path><path d="M16 8c-1.2 1.2-1.2 3.2 0 4.4"></path></svg>
+              SaaS landing page
+            </button>
+            <button class="chip" data-suggestion="Make a blog with articles">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"></path></svg>
+              Blog
+            </button>
+          </div>
+        </div>
+
+        <!-- Message list (hidden until project selected) -->
+        <div id="messages" class="hidden" role="log" aria-live="polite" aria-label="Chat messages"></div>
+
+        <!-- Input bar -->
+        <div id="inputBar">
+          <div class="input-container">
+            <textarea
+              id="chatInput"
+              placeholder="Ask AI to create or edit your website… (Shift+Enter for newline)"
+              rows="1"
+              aria-label="Chat message input"
+              disabled
+            ></textarea>
+            <button class="send-btn" id="sendBtn" aria-label="Send message" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+    </div><!-- /workspace -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ─── Advanced Editor Modal ────────────────────────────── -->
+<div id="editorPanel" role="dialog" aria-modal="true" aria-label="Advanced code editor">
+  <div class="editor-inner">
+    <div class="editor-sidebar">
+      <div class="editor-sidebar-header">Files</div>
+      <div id="fileTree" role="tree"></div>
+    </div>
+      <div class="editor-main">
+        <div class="editor-toolbar">
+          <span id="editorFilename">No file open</span>
+          <button class="btn primary" id="saveFileBtn" aria-label="Save file">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Save
+          </button>
+          <button class="btn" id="closeEditorBtn" aria-label="Close editor">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div id="codeEditorArea"></div>
+      </div>
+  </div>
+</div>
+
+<!-- ─── New Project Modal ─────────────────────────────────── -->
+<div class="modal-overlay" id="newProjectModal" role="dialog" aria-modal="true" aria-labelledby="newProjectTitle">
+  <div class="modal">
+    <h3 id="newProjectTitle">New Project</h3>
+    <p>Enter a name for your new project folder. Use letters, numbers, hyphens, or underscores.</p>
+    <input
+      class="modal-input"
+      type="text"
+      id="newProjectName"
+      placeholder="my-website"
+      pattern="[a-zA-Z0-9_-]+"
+      maxlength="64"
+      aria-label="Project name"
+    />
+    <input
+      class="modal-input"
+      type="text"
+      id="newProjectDesc"
+      placeholder="Description (optional)"
+      maxlength="140"
+      aria-label="Project description"
+    />
+    <div class="modal-actions">
+      <button class="btn" id="cancelProjectBtn" aria-label="Cancel">Cancel</button>
+      <button class="btn primary" id="confirmProjectBtn" aria-label="Create project">Create Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Version History Panel ─────────────────────────────── -->
+<div id="versionsPanel" role="complementary" aria-label="Version history">
+  <div class="versions-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    Version History
+    <button class="icon-btn" id="closeVersionsBtn" style="margin-left:auto" aria-label="Close version history">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div id="versionList" role="list"></div>
+</div>
+
+<!-- ─── Toast container ───────────────────────────────────── -->
+<div id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- ─── Scripts (modules) ─────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
